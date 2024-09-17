@@ -1,0 +1,12 @@
+<p-menubar [model]="items">
+  <ng-template pTemplate="start" class="mr-1">
+    <img
+      src="assets/images/logo.svg"
+      alt=""
+      width="48"
+      height="48"
+      (click)="goHome()"
+    />
+    <span (click)="goHome()">CurrentWave</span>
+  </ng-template>
+</p-menubar>

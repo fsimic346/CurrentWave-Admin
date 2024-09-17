@@ -1,0 +1,31 @@
+:host {
+  ::ng-deep {
+    .p-menubar-start {
+      display: flex;
+      align-items: center;
+      font-size: 1.2rem;
+      margin-left: auto;
+      user-select: none;
+
+      :hover {
+        cursor: pointer;
+      }
+    }
+
+    .p-element {
+      margin-left: auto;
+      user-select: none;
+    }
+
+    .p-focus {
+      span {
+        color: var(--primary-color);
+      }
+    }
+  }
+}
+
+.p-menuitem-link {
+  display: flex;
+  gap: 0.2rem;
+}
