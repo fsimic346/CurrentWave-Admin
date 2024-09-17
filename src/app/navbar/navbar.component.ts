@@ -19,10 +19,10 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.items = [
       {
-        label: 'Shirts',
-        icon: 'pi pi-shopping-bag',
+        label: 'Designs',
+        icon: 'pi pi-pen-to-square',
         command: () => {
-          this.router.navigate(['/shirts']);
+          this.router.navigate(['/designs']);
         },
       },
       {

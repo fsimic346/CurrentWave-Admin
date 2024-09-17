@@ -1,0 +1,15 @@
+<div class="container">
+  <h1 style="text-align: center">Designs</h1>
+  <p-button
+    class="new-button"
+    icon="pi pi-pen-to-square"
+    label="New"
+    (onClick)="show()"
+  />
+  <div class="designs-grid">
+    <cw-design-card
+      *ngFor="let design of designs"
+      [design]="design"
+    ></cw-design-card>
+  </div>
+</div>
