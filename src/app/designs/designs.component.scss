@@ -1,5 +1,11 @@
 :host {
   height: 100%;
+
+  ::ng-deep {
+    .p-paginator {
+      background-color: transparent;
+    }
+  }
 }
 
 .container {

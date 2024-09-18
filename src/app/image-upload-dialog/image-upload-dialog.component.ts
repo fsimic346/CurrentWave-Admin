@@ -5,7 +5,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { HttpClientModule } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'cw-image-upload-dialog',
@@ -23,10 +23,10 @@ import { MessageService } from 'primeng/api';
 export class ImageUploadDialogComponent {
   selectedFiles: File[] = [];
   messageService = inject(MessageService);
-  constructor(private ref: DynamicDialogRef) {}
+  constructor(private config: PrimeNGConfig, private ref: DynamicDialogRef) {}
 
   onSelect(event: any, index: number): void {
-    this.selectedFiles[index - 1] = event.files[0];
+    this.selectedFiles[index] = event.files[0];
   }
 
   submitImages(): void {
@@ -40,5 +40,19 @@ export class ImageUploadDialogComponent {
         life: 3000,
       });
     }
+  }
+
+  formatSize(bytes: any) {
+    const k = 1024;
+    const dm = 3;
+    const sizes = this.config.translation.fileSizeTypes;
+    if (bytes === 0) {
+      return `0 ${sizes![0]}`;
+    }
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    const formattedSize = parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
+
+    return `${formattedSize} ${sizes![i]}`;
   }
 }
