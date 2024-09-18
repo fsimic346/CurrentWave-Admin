@@ -1,0 +1,42 @@
+<div class="flex flex-column gap-5 container w-22rem">
+  <div
+    class="title"
+    [style.background-color]="image ? 'rgba(0, 0, 0, 0.6)' : 'none'"
+  >
+    {{ name ? name : "New Design" }}
+  </div>
+  <div
+    class="header"
+    [style.background-image]="imageSrc ? 'url(' + imageSrc + ')' : ''"
+  ></div>
+</div>
+<div
+  class="flex flex-column gap-5 container px-5 py-2 justify-content-center mx-auto mt-4"
+>
+  <p-floatLabel>
+    <input pInputText id="name" [(ngModel)]="name" />
+    <label for="name">Name</label>
+  </p-floatLabel>
+  <p-dropdown
+    [options]="categories"
+    [(ngModel)]="category"
+    placeholder="Select a Category"
+    class="w-full"
+  />
+  <p-fileUpload
+    mode="basic"
+    chooseLabel="Upload Image"
+    chooseIcon="pi pi-upload"
+    accept="image/*"
+    maxFileSize="20971520"
+    [auto]="true"
+    (onSelect)="onSelect($event)"
+  />
+  <p-button
+    icon="pi pi-check"
+    label="Create"
+    [loading]="loading"
+    class="align-self-center"
+    (onClick)="createDesign()"
+  />
+</div>

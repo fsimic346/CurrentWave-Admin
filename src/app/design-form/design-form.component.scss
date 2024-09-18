@@ -1,0 +1,70 @@
+:host {
+  ::ng-deep {
+    .p-fileupload-choose {
+      background-color: var(--surface-900);
+      outline-color: var(--surface-900);
+      border-color: var(--surface-900);
+    }
+
+    .p-dropdown {
+      width: 100%;
+    }
+
+    .p-fileupload-choose {
+      width: 100%;
+    }
+  }
+}
+
+input {
+  width: 100%;
+}
+
+.container {
+  position: relative;
+  width: 18rem;
+  justify-content: center;
+}
+
+.header {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  //   filter: blur(3px);
+  height: 16rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: box-shadow 0.3s ease;
+  border-top-right-radius: 13px;
+  border-top-left-radius: 13px;
+  -webkit-box-shadow: inset 0px -160px 93px 7px rgba(0, 0, 0, 0.55);
+  -moz-box-shadow: inset 0px -160px 93px 7px rgba(0, 0, 0, 0.55);
+  box-shadow: inset 0px -160px 93px 7px rgba(0, 0, 0, 0.55);
+}
+
+.title {
+  font-weight: 600;
+  font-size: 2rem;
+  position: absolute;
+  z-index: 3;
+  height: calc(12rem + 4px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease;
+  text-align: center;
+  border-top-right-radius: 13px;
+  border-top-left-radius: 13px;
+}
+
+.title:hover {
+  background-color: transparent !important;
+  opacity: 0;
+}
+
+.title:hover + .header {
+  box-shadow: none;
+}
