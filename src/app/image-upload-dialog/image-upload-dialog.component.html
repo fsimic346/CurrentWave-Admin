@@ -1,0 +1,54 @@
+<div class="flex flex-column gap-5 container w-30rem">
+  <div class="flex flex-column gap-5">
+    <p-fileUpload
+      accept="image/*"
+      maxFileSize="20971520"
+      (onSelect)="onSelect($event, 1)"
+    >
+      <ng-template pTemplate="header"> </ng-template>
+      <ng-template pTemplate="content"></ng-template>
+      <ng-template pTemplate="file"> {{ selectedFiles[0].name }}</ng-template>
+      <ng-template pTemplate="empty">
+        <div class="upload-box">
+          <p>Drag main image here to upload.</p>
+        </div>
+      </ng-template>
+    </p-fileUpload>
+    <p-fileUpload
+      accept="image/*"
+      maxFileSize="20971520"
+      (onSelect)="onSelect($event, 2)"
+    >
+      <ng-template pTemplate="header"> </ng-template>
+      <ng-template pTemplate="content"></ng-template>
+      <ng-template pTemplate="file"> {{ selectedFiles[1].name }}</ng-template>
+      <ng-template pTemplate="empty">
+        <div class="upload-box">
+          <p>Drag front image here to upload.</p>
+        </div>
+      </ng-template>
+    </p-fileUpload>
+    <p-fileUpload
+      accept="image/*"
+      maxFileSize="20971520"
+      (onSelect)="onSelect($event, 3)"
+    >
+      <ng-template pTemplate="header"> </ng-template>
+      <ng-template pTemplate="content"></ng-template>
+      <ng-template pTemplate="file"> {{ selectedFiles[2].name }}</ng-template>
+      <ng-template pTemplate="empty">
+        <div class="upload-box">
+          <p>Drag back image here to upload.</p>
+        </div>
+      </ng-template>
+    </p-fileUpload>
+  </div>
+  <p-footer>
+    <p-button
+      class="submit-button"
+      label="Submit"
+      (onClick)="submitImages()"
+      icon="pi pi-check"
+    ></p-button>
+  </p-footer>
+</div>

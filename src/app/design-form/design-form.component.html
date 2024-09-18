@@ -1,6 +1,7 @@
 <div class="flex flex-column gap-5 container w-22rem">
   <div
     class="title"
+    [class.hoverable]="imageSrc"
     [style.background-color]="image ? 'rgba(0, 0, 0, 0.6)' : 'none'"
   >
     {{ name ? name : "New Design" }}
@@ -23,15 +24,12 @@
     placeholder="Select a Category"
     class="w-full"
   />
-  <p-fileUpload
-    mode="basic"
-    chooseLabel="Upload Image"
-    chooseIcon="pi pi-upload"
-    accept="image/*"
-    maxFileSize="20971520"
-    [auto]="true"
-    (onSelect)="onSelect($event)"
-  />
+  <p-button
+    class="upload-button"
+    label="Upload Images"
+    icon="pi pi-upload"
+    (onClick)="openImageUploadDialog()"
+  ></p-button>
   <p-button
     icon="pi pi-check"
     label="Create"

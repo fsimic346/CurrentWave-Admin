@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
@@ -8,8 +8,9 @@ import { ToastModule } from 'primeng/toast';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { MessageService } from 'primeng/api';
 import { FileUploadModule } from 'primeng/fileupload';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { HttpClientModule } from '@angular/common/http';
+import { ImageUploadDialogComponent } from '../image-upload-dialog/image-upload-dialog.component';
 
 @Component({
   selector: 'cw-design-form',
@@ -24,7 +25,9 @@ import { HttpClientModule } from '@angular/common/http';
     DropdownModule,
     FileUploadModule,
     HttpClientModule,
+    ImageUploadDialogComponent,
   ],
+  providers: [DialogService],
   templateUrl: './design-form.component.html',
   styleUrl: './design-form.component.scss',
 })
@@ -35,10 +38,29 @@ export class DesignFormComponent {
   loading = false;
   image: string | undefined;
   imageSrc: string | ArrayBuffer | null = null;
-  selectedFile: any | undefined;
+  selectedFiles: File[] = [];
 
+  dialogService = inject(DialogService);
   messageService = inject(MessageService);
+
   constructor(private ref: DynamicDialogRef) {}
+
+  openImageUploadDialog(): void {
+    this.ref = this.dialogService.open(ImageUploadDialogComponent, {
+      showHeader: true,
+      modal: true,
+      closeOnEscape: true,
+      dismissableMask: true,
+    });
+    this.ref.onClose.subscribe((files) => {
+      this.selectedFiles = files;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imageSrc = reader.result;
+      };
+      reader.readAsDataURL(this.selectedFiles[0]);
+    });
+  }
 
   async createDesign(): Promise<void> {
     if (!this.name || !this.category || this.image) {
@@ -71,18 +93,5 @@ export class DesignFormComponent {
       });
       this.loading = false;
     }
-  }
-
-  onSelect(event: any): void {
-    this.selectedFile = event.files[0];
-    if (!this.selectedFile) {
-      console.error('No file selected.');
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      this.imageSrc = reader.result;
-    };
-    reader.readAsDataURL(this.selectedFile);
   }
 }

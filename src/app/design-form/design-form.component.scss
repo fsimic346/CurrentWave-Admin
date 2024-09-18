@@ -1,16 +1,13 @@
 :host {
   ::ng-deep {
-    .p-fileupload-choose {
+    .upload-button .p-button {
+      width: 100%;
       background-color: var(--surface-900);
       outline-color: var(--surface-900);
       border-color: var(--surface-900);
     }
 
     .p-dropdown {
-      width: 100%;
-    }
-
-    .p-fileupload-choose {
       width: 100%;
     }
   }
@@ -39,9 +36,6 @@ input {
   transition: box-shadow 0.3s ease;
   border-top-right-radius: 13px;
   border-top-left-radius: 13px;
-  -webkit-box-shadow: inset 0px -160px 93px 7px rgba(0, 0, 0, 0.55);
-  -moz-box-shadow: inset 0px -160px 93px 7px rgba(0, 0, 0, 0.55);
-  box-shadow: inset 0px -160px 93px 7px rgba(0, 0, 0, 0.55);
 }
 
 .title {
@@ -60,11 +54,17 @@ input {
   border-top-left-radius: 13px;
 }
 
-.title:hover {
+.hoverable:hover {
   background-color: transparent !important;
   opacity: 0;
 }
 
-.title:hover + .header {
+.hoverable:hover + .header {
   box-shadow: none;
+}
+
+.hoverable + .header {
+  -webkit-box-shadow: inset 0px -160px 93px 7px rgba(0, 0, 0, 0.55);
+  -moz-box-shadow: inset 0px -160px 93px 7px rgba(0, 0, 0, 0.55);
+  box-shadow: inset 0px -160px 93px 7px rgba(0, 0, 0, 0.55);
 }
