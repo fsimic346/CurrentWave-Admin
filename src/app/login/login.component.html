@@ -1,0 +1,32 @@
+<p-panel class="flex w-min mx-auto mt-8 fadein animation-duration-1000">
+  <div class="flex flex-column gap-5 w-min h-30rem">
+    <img
+      src="assets/images/logo.svg"
+      class="mx-auto"
+      alt=""
+      width="128"
+      height="128"
+    />
+    <div class="text-lg font-semibold mx-auto mb-1">Sign in</div>
+    <p-floatLabel>
+      <input pInputText id="email" [(ngModel)]="email" />
+      <label for="email">Email</label>
+    </p-floatLabel>
+    <p-floatLabel>
+      <p-password
+        id="password"
+        [feedback]="false"
+        [(ngModel)]="password"
+        [toggleMask]="true"
+      />
+      <label for="password">Password</label>
+    </p-floatLabel>
+
+    <p-button
+      label="Sign in"
+      [loading]="loading"
+      class="align-self-center"
+      (onClick)="login()"
+    />
+  </div>
+</p-panel>

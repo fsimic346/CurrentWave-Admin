@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Admin-Panel": {
+    "admin-panel": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Admin-Panel:build:production"
+              "buildTarget": "admin-panel:build:production"
             },
             "development": {
-              "buildTarget": "Admin-Panel:build:development"
+              "buildTarget": "admin-panel:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "Admin-Panel:build"
+            "buildTarget": "admin-panel:build"
           }
         },
         "test": {

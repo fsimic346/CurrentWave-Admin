@@ -11,6 +11,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { HttpClientModule } from '@angular/common/http';
 import { ImageUploadDialogComponent } from '../image-upload-dialog/image-upload-dialog.component';
+import { DesignService } from '../design.service';
+import { Design, DesignCreate } from '../../models/design';
 
 @Component({
   selector: 'cw-design-form',
@@ -39,20 +41,22 @@ export class DesignFormComponent {
   image: string | undefined;
   imageSrc: string | ArrayBuffer | null = null;
   selectedFiles: File[] = [];
+  uploadDialogRef?: DynamicDialogRef;
 
   dialogService = inject(DialogService);
   messageService = inject(MessageService);
+  designService = inject(DesignService);
 
   constructor(private ref: DynamicDialogRef) {}
 
   openImageUploadDialog(): void {
-    this.ref = this.dialogService.open(ImageUploadDialogComponent, {
+    this.uploadDialogRef = this.dialogService.open(ImageUploadDialogComponent, {
       showHeader: true,
       modal: true,
       closeOnEscape: true,
       dismissableMask: true,
     });
-    this.ref.onClose.subscribe((files) => {
+    this.uploadDialogRef.onClose.subscribe((files) => {
       this.selectedFiles = files;
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -75,8 +79,19 @@ export class DesignFormComponent {
 
     this.loading = true;
     try {
-      console.log(this.name, this.category);
-      this.ref.close();
+      const design: DesignCreate = {
+        name: this.name,
+        category: this.category,
+        createdAt: new Date().toUTCString(),
+      };
+      const result = await this.designService.createDesign(
+        design,
+        this.selectedFiles[0],
+        this.selectedFiles[1],
+        this.selectedFiles[2]
+      );
+
+      this.ref.close(result);
       this.messageService.add({
         severity: 'success',
         summary: 'Design created',

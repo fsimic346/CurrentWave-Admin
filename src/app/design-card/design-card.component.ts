@@ -11,4 +11,8 @@ import { TagModule } from 'primeng/tag';
 export class DesignCardComponent {
   @Input({ required: true })
   design!: Design;
+
+  getUrl(image: string) {
+    return `url("${image}")`;
+  }
 }
