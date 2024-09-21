@@ -30,16 +30,7 @@ export class ImageUploadDialogComponent {
   }
 
   submitImages(): void {
-    if (this.selectedFiles.length === 3) {
-      this.ref.close(this.selectedFiles);
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Invalid Images',
-        detail: 'All images are required.',
-        life: 3000,
-      });
-    }
+    this.ref.close(this.selectedFiles);
   }
 
   formatSize(bytes: any) {

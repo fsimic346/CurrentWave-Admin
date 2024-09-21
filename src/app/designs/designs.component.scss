@@ -22,7 +22,8 @@ h1 {
 }
 
 .new-button {
-  margin-inline: auto;
+  position: absolute;
+  right: 0;
 }
 
 .designs-grid {
@@ -33,4 +34,16 @@ h1 {
   gap: 1.5rem;
   justify-content: center;
   position: relative;
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 51rem;
+  margin-inline: auto;
+}
+
+.search {
+  margin-inline: auto;
 }

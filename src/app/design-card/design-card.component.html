@@ -1,6 +1,16 @@
-<div class="card">
-  <div class="image" [style.background-image]="getUrl(design.image)">
-    <p-tag [value]="design.category" severity="contrast" rounded="true" />
-  </div>
+<div class="card" (click)="showForm()">
+  <p-skeleton *ngIf="!imageLoaded" height="16rem"></p-skeleton>
+  <img
+    class="image"
+    [ngClass]="{ hidden: !imageLoaded }"
+    [src]="design.image"
+    (load)="onImageLoad()"
+  />
+  <p-tag
+    class="tag"
+    [value]="design.category"
+    severity="contrast"
+    rounded="true"
+  />
   <div class="name">{{ design.name }}</div>
 </div>

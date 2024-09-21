@@ -22,7 +22,5 @@ export class AppComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig, private auth: Auth) {
     this.user$ = authState(this.auth);
   }
-  ngOnInit(): void {
-    this.primengConfig.ripple = true;
-  }
+  ngOnInit(): void {}
 }

@@ -1,21 +1,34 @@
 <div class="container">
   <h1 style="text-align: center">Designs</h1>
-  <p-button
-    class="new-button"
-    icon="pi pi-pen-to-square"
-    label="New"
-    (onClick)="show()"
-  />
+  <div class="row">
+    <span class="p-input-icon-left search">
+      <i class="pi pi-search"></i>
+      <input
+        pInputText
+        placeholder="Search"
+        class="transition-all transition-duration-300 transition-ease-in-out"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+      />
+    </span>
+    <p-button
+      class="new-button"
+      icon="pi pi-pen-to-square"
+      label="New"
+      (onClick)="show()"
+    />
+  </div>
   <div class="designs-grid">
     <cw-design-card
       *ngFor="let design of designs"
       [design]="design"
+      (deletedItem)="deletedItem($event)"
     ></cw-design-card>
   </div>
   <p-paginator
     (onPageChange)="onPageChange($event)"
     [first]="first"
     [rows]="rows"
-    [totalRecords]="designs.length"
+    [totalRecords]="totalRecords"
   />
 </div>

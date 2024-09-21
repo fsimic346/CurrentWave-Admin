@@ -32,9 +32,19 @@
   ></p-button>
   <p-button
     icon="pi pi-check"
-    label="Create"
+    [label]="design ? 'Update' : 'Create'"
     [loading]="loading"
     class="align-self-center"
-    (onClick)="createDesign()"
+    (onClick)="design ? updateDesign() : createDesign()"
   />
+  <p-button
+    *ngIf="design != undefined"
+    icon="pi pi-trash"
+    severity="danger"
+    label="Delete"
+    [loading]="loading"
+    class="align-self-center"
+    (onClick)="deleteDesign($event)"
+  />
+  <p-confirmDialog />
 </div>

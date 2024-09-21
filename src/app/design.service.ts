@@ -11,12 +11,18 @@ import {
   DocumentReference,
   getDoc,
   orderBy,
+  limit,
+  startAfter,
+  updateDoc,
+  deleteDoc,
+  where,
 } from '@angular/fire/firestore';
 import {
   ref,
   uploadBytes,
   Storage,
   getDownloadURL,
+  deleteObject,
 } from '@angular/fire/storage';
 import { Design, DesignCreate } from '../models/design';
 
@@ -28,18 +34,87 @@ export class DesignService {
   storage = inject(Storage);
   constructor() {}
 
-  async getDesigns(): Promise<Design[]> {
-    const designSnapshot = await getDocs(
-      query(collection(this.firestore, 'designs'))
+  async getDesigns(
+    pageSize: number,
+    startAfterDoc: any = null,
+    searchTerm: string = ''
+  ): Promise<{ designs: Design[]; lastDoc: any }> {
+    let designQuery = query(
+      collection(this.firestore, 'designs'),
+      orderBy('createdAt', 'desc'),
+      limit(pageSize)
     );
-    const designs: Design[] = [];
 
-    for (const doc of designSnapshot.docs) {
-      const design = { id: doc.id, ...doc.data() } as Design;
-
-      designs.push(design);
+    if (searchTerm) {
+      designQuery = query(
+        designQuery,
+        where('name', '>=', searchTerm),
+        where('name', '<=', searchTerm + '\uf8ff')
+      );
     }
-    return designs;
+
+    if (startAfterDoc) {
+      designQuery = query(designQuery, startAfter(startAfterDoc));
+    }
+
+    const designSnapshot = await getDocs(designQuery);
+    const designs: Design[] = [];
+    let lastDoc = null;
+
+    designSnapshot.forEach((doc) => {
+      designs.push({ id: doc.id, ...doc.data() } as Design);
+    });
+
+    lastDoc = designSnapshot.docs[designSnapshot.docs.length - 1];
+
+    return { designs, lastDoc };
+  }
+
+  async updateDesign(
+    design: Design,
+    mainImage?: File,
+    frontImage?: File,
+    backImage?: File
+  ): Promise<Design> {
+    const filePath = `${design.name}/`;
+    const uploads: any = [];
+    if (mainImage) {
+      uploads.push(
+        uploadBytes(ref(this.storage, filePath + 'main'), mainImage)
+          .then((snapshot) => getDownloadURL(snapshot.ref))
+          .then(async (downloadURL) => {
+            design.image = downloadURL;
+          })
+      );
+    }
+    if (frontImage) {
+      uploadBytes(ref(this.storage, filePath + 'front'), frontImage)
+        .then((snapshot) => getDownloadURL(snapshot.ref))
+        .then(async (downloadURL) => {
+          design.front = downloadURL;
+        });
+    }
+    if (backImage) {
+      uploadBytes(ref(this.storage, filePath + 'back'), backImage)
+        .then((snapshot) => getDownloadURL(snapshot.ref))
+        .then(async (downloadURL) => {
+          design.back = downloadURL;
+        });
+    }
+
+    try {
+      await Promise.all(uploads);
+
+      const docRef = doc(
+        this.firestore,
+        `designs/${design.id}`
+      ) as DocumentReference<Design>;
+      await updateDoc(docRef, design);
+
+      return design;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async createDesign(
@@ -81,5 +156,21 @@ export class DesignService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async deleteDesign(design: Design): Promise<void> {
+    const mainImage = ref(this.storage, design.image);
+    const frontImage = ref(this.storage, design.front);
+    const backImage = ref(this.storage, design.back);
+    const docRef = doc(
+      this.firestore,
+      `designs/${design.id}`
+    ) as DocumentReference<Design>;
+    Promise.all([
+      deleteObject(mainImage),
+      deleteObject(frontImage),
+      deleteObject(backImage),
+      deleteDoc(docRef),
+    ]);
   }
 }

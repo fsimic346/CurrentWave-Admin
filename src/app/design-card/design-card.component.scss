@@ -1,8 +1,16 @@
 :host {
   width: 100%;
+
+  ::ng-deep {
+    p-skeleton {
+      width: 100%;
+      display: block;
+    }
+  }
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -10,12 +18,21 @@
   transition: 0.2s ease;
 }
 
+.hidden {
+  display: none;
+}
+
+.tag {
+  position: absolute;
+  z-index: 11;
+}
+
 .image {
+  position: relative;
+  z-index: 10;
   height: 16rem;
   width: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  object-fit: cover;
   border-top-right-radius: 1rem;
   border-top-left-radius: 1rem;
 }

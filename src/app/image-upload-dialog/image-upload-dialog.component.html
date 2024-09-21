@@ -1,10 +1,6 @@
 <div class="flex flex-column gap-5 container w-30rem">
   <div class="flex flex-column gap-5">
-    <p-fileUpload
-      accept="image/*"
-      maxFileSize="1000000"
-      (onSelect)="onSelect($event, 0)"
-    >
+    <p-fileUpload accept="image/*" (onSelect)="onSelect($event, 0)">
       <ng-template pTemplate="content" let-files>
         <div
           *ngFor="let file of files"
@@ -35,11 +31,7 @@
       </ng-template>
     </p-fileUpload>
 
-    <p-fileUpload
-      accept="image/*"
-      maxFileSize="1000000"
-      (onSelect)="onSelect($event, 1)"
-    >
+    <p-fileUpload accept="image/*" (onSelect)="onSelect($event, 1)">
       <ng-template pTemplate="content" let-files>
         <div
           *ngFor="let file of files"
@@ -69,11 +61,7 @@
         </div>
       </ng-template>
     </p-fileUpload>
-    <p-fileUpload
-      accept="image/*"
-      maxFileSize="1000000"
-      (onSelect)="onSelect($event, 2)"
-    >
+    <p-fileUpload accept="image/*" (onSelect)="onSelect($event, 2)">
       <ng-template pTemplate="content" let-files>
         <div
           *ngFor="let file of files"
