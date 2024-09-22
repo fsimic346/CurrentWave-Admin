@@ -6,10 +6,23 @@
     [src]="design.image"
     (load)="onImageLoad()"
   />
+  <div class="tags">
+    <p-tag
+      class="tag"
+      [value]="design.category"
+      severity="contrast"
+      rounded="true"
+    />
+    <p-tag
+      class="tag"
+      [value]="design.type"
+      severity="contrast"
+      rounded="true"
+    />
+  </div>
   <p-tag
-    class="tag"
-    [value]="design.category"
-    severity="contrast"
+    class="price"
+    [value]="(design.price | currency : 'RSD')!"
     rounded="true"
   />
   <div class="name">{{ design.name }}</div>

@@ -26,6 +26,10 @@ import {
 } from '@angular/fire/storage';
 import { Design, DesignCreate } from '../models/design';
 
+type Types = {
+  types: string[];
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -172,5 +176,14 @@ export class DesignService {
       deleteObject(backImage),
       deleteDoc(docRef),
     ]);
+  }
+
+  async getTypes(): Promise<string[]> {
+    const docRef = doc(
+      this.firestore,
+      'types/types'
+    ) as DocumentReference<Types>;
+    const types = await getDoc(docRef);
+    return types.data()!.types;
   }
 }

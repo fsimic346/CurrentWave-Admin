@@ -13,6 +13,8 @@ import { DesignFormComponent } from '../design-form/design-form.component';
 import { DesignService } from '../design.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 interface PageEvent {
   first: number;
@@ -31,6 +33,7 @@ interface PageEvent {
     PaginatorModule,
     DynamicDialogModule,
     InputTextModule,
+    ToastModule,
   ],
   providers: [DialogService],
   templateUrl: './designs.component.html',
@@ -48,6 +51,7 @@ export class DesignsComponent implements OnInit {
   designs: Design[] = [];
   lastDoc: any = null;
 
+  messageService = inject(MessageService);
   dialogService = inject(DialogService);
   designService = inject(DesignService);
 
@@ -88,13 +92,18 @@ export class DesignsComponent implements OnInit {
       },
     });
     this.ref.onClose.subscribe((data) => {
-      if (data.design) this.designs.unshift(data.design);
+      if (data && data.design) this.designs.unshift(data.design);
     });
   }
 
   deletedItem(id: string) {
     this.designs = this.designs.filter((x) => x.id != id);
-    console.log(this.designs.length);
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Design deleted',
+      detail: `Successfully deleted design.`,
+      life: 3000,
+    });
   }
 
   onPageChange(event: any): void {

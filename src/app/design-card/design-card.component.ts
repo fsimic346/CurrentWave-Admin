@@ -51,7 +51,7 @@ export class DesignCardComponent {
       },
     });
     this.ref.onClose.subscribe((data) => {
-      if (data.deletedId) this.deletedItem.emit(data.deletedId);
+      if (data && data.deletedId) this.deletedItem.emit(data.deletedId);
     });
   }
 }

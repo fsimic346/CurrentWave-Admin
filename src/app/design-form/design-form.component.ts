@@ -19,6 +19,7 @@ import { DesignService } from '../design.service';
 import { Design, DesignCreate } from '../../models/design';
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { InputNumberModule } from 'primeng/inputnumber';
 @Component({
   selector: 'cw-design-form',
   standalone: true,
@@ -35,16 +36,20 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ImageUploadDialogComponent,
     CommonModule,
     ConfirmDialogModule,
+    InputNumberModule,
   ],
   providers: [DialogService, ConfirmationService, MessageService],
   templateUrl: './design-form.component.html',
   styleUrl: './design-form.component.scss',
 })
-export class DesignFormComponent {
+export class DesignFormComponent implements OnInit {
   design?: Design;
   name: string | undefined;
   category: string | undefined;
+  type: string | undefined;
+  price: number | undefined;
   categories = ['Rap', 'Anime', 'Originals'];
+  types: string[] = [];
   loading = false;
   image: string | undefined;
   imageSrc: string | ArrayBuffer | null = null;
@@ -67,8 +72,14 @@ export class DesignFormComponent {
         this.name = this.design.name;
         this.category = this.design.category;
         this.imageSrc = this.design.image;
+        this.type = this.design.type;
+        this.price = this.design.price;
       }
     }
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.types = await this.designService.getTypes();
   }
 
   openImageUploadDialog(): void {
@@ -89,7 +100,13 @@ export class DesignFormComponent {
   }
 
   async updateDesign(): Promise<void> {
-    if (!this.name || !this.category || this.image) {
+    if (
+      !this.name ||
+      !this.category ||
+      this.image ||
+      !this.type ||
+      !this.price
+    ) {
       this.messageService.add({
         severity: 'error',
         summary: 'Invalid data',
@@ -102,6 +119,8 @@ export class DesignFormComponent {
     try {
       this.design!.name = this.name;
       this.design!.category = this.category;
+      this.design!.price = this.price;
+      this.design!.type = this.type;
       const result = await this.designService.updateDesign(
         this.design!,
         this.selectedFiles[0],
@@ -129,7 +148,13 @@ export class DesignFormComponent {
   }
 
   async createDesign(): Promise<void> {
-    if (!this.name || !this.category || this.image) {
+    if (
+      !this.name ||
+      !this.category ||
+      this.image ||
+      !this.type ||
+      !this.price
+    ) {
       this.messageService.add({
         severity: 'error',
         summary: 'Invalid data',
@@ -144,6 +169,8 @@ export class DesignFormComponent {
       const design: DesignCreate = {
         name: this.name,
         category: this.category,
+        type: this.type,
+        price: this.price,
         createdAt: new Date().toUTCString(),
       };
       const result = await this.designService.createDesign(

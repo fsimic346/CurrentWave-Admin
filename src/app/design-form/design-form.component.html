@@ -18,10 +18,20 @@
     <input pInputText id="name" [(ngModel)]="name" />
     <label for="name">Name</label>
   </p-floatLabel>
+  <p-floatLabel>
+    <p-inputNumber id="price" [(ngModel)]="price" />
+    <label for="price">Price</label>
+  </p-floatLabel>
   <p-dropdown
     [options]="categories"
     [(ngModel)]="category"
     placeholder="Select a Category"
+    class="w-full"
+  />
+  <p-dropdown
+    [options]="types"
+    [(ngModel)]="type"
+    placeholder="Select a Type"
     class="w-full"
   />
   <p-button
