@@ -16,6 +16,8 @@ import {
   updateDoc,
   deleteDoc,
   where,
+  getCountFromServer,
+  startAt,
 } from '@angular/fire/firestore';
 import {
   ref,
@@ -39,14 +41,11 @@ export class DesignService {
   constructor() {}
 
   async getDesigns(
-    pageSize: number,
-    startAfterDoc: any = null,
     searchTerm: string = ''
   ): Promise<{ designs: Design[]; lastDoc: any }> {
     let designQuery = query(
       collection(this.firestore, 'designs'),
-      orderBy('createdAt', 'desc'),
-      limit(pageSize)
+      orderBy('createdAt', 'desc')
     );
 
     if (searchTerm) {
@@ -55,10 +54,6 @@ export class DesignService {
         where('name', '>=', searchTerm),
         where('name', '<=', searchTerm + '\uf8ff')
       );
-    }
-
-    if (startAfterDoc) {
-      designQuery = query(designQuery, startAfter(startAfterDoc));
     }
 
     const designSnapshot = await getDocs(designQuery);

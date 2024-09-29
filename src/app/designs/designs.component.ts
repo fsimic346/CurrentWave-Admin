@@ -1,4 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { DesignCardComponent } from '../design-card/design-card.component';
 import { Design } from '../../models/design';
 import { CommonModule } from '@angular/common';
@@ -42,14 +47,10 @@ interface PageEvent {
 export class DesignsComponent implements OnInit {
   ref: DynamicDialogRef | undefined;
 
-  first: number = 0;
-  rows: number = 6;
-  totalRecords: number = 0;
   searchTerm: string = '';
   private searchText$ = new Subject<string>();
 
   designs: Design[] = [];
-  lastDoc: any = null;
 
   messageService = inject(MessageService);
   dialogService = inject(DialogService);
@@ -66,16 +67,14 @@ export class DesignsComponent implements OnInit {
     });
   }
 
+  trackBy(index: number, design: Design) {
+    return design.id;
+  }
+
   async loadDesigns(term: string = ''): Promise<void> {
-    const { designs, lastDoc } = await this.designService.getDesigns(
-      this.rows,
-      this.lastDoc,
-      this.searchTerm
-    );
+    const { designs } = await this.designService.getDesigns(this.searchTerm);
 
     this.designs = designs;
-    this.lastDoc = lastDoc;
-    this.totalRecords += designs.length;
   }
 
   show() {
@@ -106,26 +105,13 @@ export class DesignsComponent implements OnInit {
     });
   }
 
-  onPageChange(event: any): void {
-    this.first = event.first;
-    this.rows = event.rows;
-
-    this.loadDesigns();
-  }
-
   onSearch(term: string): void {
-    this.first = 0;
     this.designs = [];
-    this.totalRecords = 0;
-    this.lastDoc = null;
     this.loadDesigns(term);
   }
 
   resetSearch() {
-    this.first = 0;
     this.designs = [];
-    this.totalRecords = 0;
-    this.lastDoc = null;
     this.loadDesigns();
   }
 

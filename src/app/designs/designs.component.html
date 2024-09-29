@@ -20,15 +20,9 @@
   </div>
   <div class="designs-grid">
     <cw-design-card
-      *ngFor="let design of designs"
+      *ngFor="let design of designs; trackBy: trackBy"
       [design]="design"
       (deletedItem)="deletedItem($event)"
     ></cw-design-card>
   </div>
-  <p-paginator
-    (onPageChange)="onPageChange($event)"
-    [first]="first"
-    [rows]="rows"
-    [totalRecords]="totalRecords"
-  />
 </div>

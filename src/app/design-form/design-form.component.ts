@@ -1,4 +1,11 @@
-import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
@@ -38,7 +45,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     ConfirmDialogModule,
     InputNumberModule,
   ],
-  providers: [DialogService, ConfirmationService, MessageService],
+  providers: [DialogService, ConfirmationService],
   templateUrl: './design-form.component.html',
   styleUrl: './design-form.component.scss',
 })
@@ -128,22 +135,22 @@ export class DesignFormComponent implements OnInit {
         this.selectedFiles[2]
       );
 
-      this.ref.close(result);
+      this.loading = false;
       this.messageService.add({
         severity: 'success',
         summary: 'Design created',
         detail: `Successfully created '${this.name}' design.`,
         life: 3000,
       });
-      this.loading = false;
+      this.ref.close(result);
     } catch (error) {
+      this.loading = false;
       this.messageService.add({
         severity: 'error',
         summary: 'Error while creating design.',
         detail: error as string,
         life: 3000,
       });
-      this.loading = false;
     }
   }
 
@@ -180,22 +187,22 @@ export class DesignFormComponent implements OnInit {
         this.selectedFiles[2]
       );
 
-      this.ref.close({ design: result });
+      this.loading = false;
       this.messageService.add({
         severity: 'success',
         summary: 'Design created',
         detail: `Successfully created '${this.name}' design.`,
         life: 3000,
       });
-      this.loading = false;
+      this.ref.close({ design: result });
     } catch (error) {
+      this.loading = false;
       this.messageService.add({
         severity: 'error',
         summary: 'Error while creating design.',
         detail: error as string,
         life: 3000,
       });
-      this.loading = false;
     }
   }
 
