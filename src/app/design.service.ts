@@ -151,6 +151,38 @@ export class DesignService {
       const docRef = await addDoc(designsCollection, design);
       design.id = docRef.id;
 
+      const homeDocRef = doc(this.firestore, 'aggregations/home');
+      const homeSnapshot = await getDoc(homeDocRef);
+
+      if (homeSnapshot.exists()) {
+        const homeData = homeSnapshot.data() as {
+          [key: string]: Design[];
+        };
+
+        // Ensure the type property exists in the aggregation
+        const designType = design.type; // Assuming design.type is either 'Majica', 'Duks', etc.
+        if (!homeData[designType]) {
+          homeData[designType] = [];
+        }
+
+        // Add the new design to the front of the array
+        homeData[designType].unshift(design);
+
+        // Keep only the most recent 5 items in the array
+        if (homeData[designType].length > 5) {
+          homeData[designType] = homeData[designType].slice(0, 5);
+        }
+
+        // Update the document with the new array
+        await setDoc(homeDocRef, homeData);
+      } else {
+        // If the document doesn't exist, create it with the new design in the correct array
+        const newData = {
+          [design.type]: [design],
+        };
+        await setDoc(homeDocRef, newData);
+      }
+
       return design;
     } catch (error) {
       throw error;
