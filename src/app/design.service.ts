@@ -151,6 +151,8 @@ export class DesignService {
       const docRef = await addDoc(designsCollection, design);
       design.id = docRef.id;
 
+      await setDoc(docRef, { id: design.id }, { merge: true });
+
       const homeDocRef = doc(this.firestore, 'aggregations/home');
       const homeSnapshot = await getDoc(homeDocRef);
 
