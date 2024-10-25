@@ -97,12 +97,12 @@ export class DesignsComponent implements OnInit {
 
   deletedItem(id: string) {
     this.designs = this.designs.filter((x) => x.id != id);
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Design deleted',
-      detail: `Successfully deleted design.`,
-      life: 3000,
-    });
+    // this.messageService.add({
+    //   severity: 'success',
+    //   summary: 'Design deleted',
+    //   detail: `Successfully deleted design.`,
+    //   life: 3000,
+    // });
   }
 
   onSearch(term: string): void {
